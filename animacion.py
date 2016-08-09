@@ -15,7 +15,7 @@ posicion_base=[0, 0]
 pantalla = pygame.display.set_mode(dimensiones) 
 pygame.display.set_caption("JUEGO:JUMPSTREET")
 imagen_de_fondo = pygame.image.load("saturn_family1.jpg").convert()
-pulsar_sonido = pygame.mixer.Sound("jump2.ogg")
+
 hecho = False
 
 reloj = pygame.time.Clock()
@@ -26,13 +26,13 @@ rect_cambio_y=-3
 rect_cambio_x=0
 x_speed = 0
 y_speed = 0
-cuerdaUP = 100
+cuerdaUP = 50
 cadenay=[440]
 pi= math.pi
 arcx1=250
 arcx2=250
-arcy=250
-angulo1=2*pi
+arcy=350
+angulo1=0
 angulo2=pi
 
 while not hecho:
@@ -41,33 +41,33 @@ while not hecho:
         if evento.type == pygame.QUIT: 
             hecho = True
 
+
     pantalla.fill(NEGRO)
     # Copia la imagen en pantalla:
     pantalla.blit(imagen_de_fondo, posicion_base)
     #dibuja el cuadrado
     pygame.draw.rect(pantalla, BLANCO, [rect_x, rect_y, 50, 50])
     #dibuja el arco
-    pygame.draw.arc(pantalla, ROJO, [250, 250, 250, cuerdaUP], angulo1, angulo2, 2)
+    pygame.draw.arc(pantalla, ROJO, [arcx1, arcy, arcx2, cuerdaUP], angulo1, angulo2, 2)
     #mueve la cuerda
+
+
 
     #detectar la accion de las teclas
     if evento.type == pygame.KEYDOWN:
     	if evento.key == pygame.K_UP:
-    		y_speed=-100    
-    		pulsar_sonido.play()
-    				
+    		y_speed=-100
+    		
     		  		
     if evento.type == pygame.KEYUP:
     	if evento.key == pygame.K_UP:
     		y_speed = 10
 
+    cuerdaUP -= 1
+    arcy +=1
 
-    cuerdaUP += 1
+    if cuerdaUP == 10:
 
-    #Salto del jugador
-    for rect_y in  cadenay:
-    	rect_y += y_speed
-    #arcy +=1
 
 
 
