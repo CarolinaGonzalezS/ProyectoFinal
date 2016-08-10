@@ -129,6 +129,9 @@ class Menu:
 
 def comenzar_nuevo_juego():
     arri=0
+    angulo=math.pi
+    salto=0
+    velocidad=150
     pygame.init()
     dimensiones=[700,500]
     posicion_base=[0, 0]
@@ -137,6 +140,7 @@ def comenzar_nuevo_juego():
     pygame.mixer.music.load("pacman.mp3")
     pygame.mixer.music.play(1)
     pacman = pygame.image.load("pacman.jpg").convert_alpha()
+    perder = pygame.image.load("perder.jpg").convert_alpha()
     kong = pygame.image.load("kong.jpg").convert_alpha()
     imagen_de_fondo = pygame.image.load("fondo1.jpg").convert()
 
@@ -172,22 +176,23 @@ def comenzar_nuevo_juego():
     
         #dibuja el arco
 
-        pygame.time.delay(150)  
+        pygame.time.delay(velocidad)  
 
         #mueve la cuerda
         #detectar la accion de las teclas
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_UP:
                 y_speed=-30
+                salto+=1
             
                     
         if evento.type == pygame.KEYUP:
             if evento.key == pygame.K_UP:
-                y_speed = 10
+                y_speed = 0
 
         
         #cuerda     
-        pygame.draw.arc(pantalla, ROJO, (60, x, 500, y), 0, math.pi,4 )    
+        pygame.draw.arc(pantalla, ROJO, (60, x, 500, y), 0, angulo,4 )    
         if x==60:       
             arri=1        
         elif x==280:
@@ -206,10 +211,27 @@ def comenzar_nuevo_juego():
         print(y)
         print("cuadrado")
         print(rect_y)
-        if y==20 and rect_y==260:
+        if y==20 and rect_y==200:
             print("----------------------perdio------------------------")
             pygame.mixer.music.stop()
             sys.exit(0)
+            pantalla.blit(perder, (255, 150))
+            while not salir:
+                screen.blit(fondo, (0, 0))        
+                menu.actualizar()
+                menu.imprimir(screen)
+                pygame.display.flip()
+                pygame.time.delay(10)
+
+        #Aumento de velocidad
+        if salto==3:
+            velocidad=velocidad-10
+            salto=0
+
+        #Cambio de cuerda
+        if velocidad==10:
+            angulo=2*angulo
+            velocidad=150
 
 
     # salto del jugador:
@@ -223,7 +245,56 @@ def comenzar_nuevo_juego():
     pygame.quit()
 
 def mostrar_opciones():
-    print (" Función que muestra otro menú de opciones.")
+	terminado = False 
+    nueva = pygame.display.set_mode(500,500)
+    regla = pygame.image.load("regla.jpg").convert_alpha()
+
+    hecho = False
+
+    reloj = pygame.time.Clock()
+
+    
+
+
+    while not hecho:
+    # --- Bucle principal de eventos
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT: 
+                hecho = True
+        nueva.fill(NEGRO)
+        nueva.blit(regla, (0,0))
+        
+        
+                    
+        if evento.type == pygame.KEYUP:
+            if evento.key == pygame.K_UP:
+                y_speed = 0
+
+       
+
+        pygame.display.flip()
+        reloj.tick(60)
+
+    pygame.quit()
+
+
+
+
+
+
+
+
+
+
+	pygame.init()
+	reglas = pygame.display.set_mode(300, 300)
+	pygame.display.set_caption("JUEGO:Pac-Jumps")
+    while not terminado:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: terminado = True
+        
+        reglas.blit(regla, (50,50))
+
 
 def creditos():
     print (" Función que muestra los creditos del programa.")
