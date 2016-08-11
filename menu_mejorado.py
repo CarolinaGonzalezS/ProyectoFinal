@@ -3,6 +3,7 @@ import pygame
 import math
 from pygame.locals import *
 import sys
+import time
 NEGRO=(0, 0, 0)
 BLANCO=(255, 255, 255)
 VERDE= (0, 255, 0)
@@ -125,7 +126,7 @@ class Menu:
         self.cursor.imprimir(screen)
 
         for opcion in self.opciones:
-            opcion.imprimir(screen)
+            opcion.imprimir(screen)            
 
 def comenzar_nuevo_juego():
     arri=0
@@ -226,17 +227,12 @@ def comenzar_nuevo_juego():
         print(y)
         
         if y==20 and rect_y==203:
+            for i in range(0, 10):
+                pantalla.blit(perder, (255, 150))
             print("----------------------perdio------------------------")
-            pygame.mixer.music.stop()
-            pantalla.blit(perder, (255, 150))
-            sys.exit(0)
-            
-            while not salir:
-                screen.blit(fondo, (0, 0))        
-                menu.actualizar()
-                menu.imprimir(screen)
-                pygame.display.flip()
-                pygame.time.delay(5)
+            time.sleep(10)
+            sys.exit(0)       
+
 
         #Aumento de velocidad
         if salto==5:
@@ -245,7 +241,7 @@ def comenzar_nuevo_juego():
 
 
         #Cambio de cuerda
-        if velocidad==0:
+        if velocidad==20:
             angulo=2*angulo
             velocidad=150
             fantasma1 = pygame.image.load("fantasma1.jpg").convert_alpha()
@@ -265,16 +261,33 @@ def comenzar_nuevo_juego():
     pygame.quit()
 
 def mostrar_opciones():
-    regla = pygame.image.load("regla.jpg").convert_alpha()
-    screen.blit(regla, (50, 50))
-    pygame.time.delay(5)  
-    pygame.display.flip()
+    pygame.init()
+    dimensiones=[700,399]
+    posicion_base=[0, 0]
+    hecho = False
+    reloj = pygame.time.Clock()
+    pantalla = pygame.display.set_mode(dimensiones) 
+    pygame.display.set_caption("JUEGO:Pac-Jumps")
+    pygame.mixer.music.load("pacman.mp3")
+    pygame.mixer.music.play(1)
+    instrucciones = pygame.image.load("regla.jpg").convert_alpha()
 
-def creditos():
-    print (" Función que muestra los creditos del programa.")
+    while not hecho:
+    # --- Bucle principal de eventos
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT: 
+                hecho = True
+        pantalla.fill(NEGRO)
+        # Copia la imagen en pantalla:        
+        pantalla.blit(instrucciones, posicion_base)
+
+    
+        pygame.display.flip()
+        reloj.tick(60)
+    pygame.quit()
+
 
 def salir_del_programa():
-    import sys
     print (" Gracias por utilizar este programa.")
     sys.exit(0)
 
@@ -292,6 +305,7 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((379, 288))
     fondo = pygame.image.load("fondo.jpg").convert()
     menu = Menu(opciones)
+
 
     while not salir:
 
