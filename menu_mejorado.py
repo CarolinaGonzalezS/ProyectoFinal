@@ -132,6 +132,7 @@ def comenzar_nuevo_juego():
     arri=0
     angulo=math.pi
     salto=0
+    puntuacion=0
     velocidad=150
     pygame.init()
     dimensiones=[700,500]
@@ -190,6 +191,7 @@ def comenzar_nuevo_juego():
                 y_speed=-30    
                 rect_x=260
                 salto+=1 
+                puntuacion+=1
                 pacman = pygame.image.load("pacman2.jpg").convert_alpha() 
                 fantasma1 = pygame.image.load("fantasma4.jpg").convert_alpha()
                 fantasma2 = pygame.image.load("fantasma7.jpg").convert_alpha()
@@ -227,10 +229,9 @@ def comenzar_nuevo_juego():
         print(y)
         
         if y==20 and rect_y==203:
-            for i in range(0, 10):
-                pantalla.blit(perder, (255, 150))
+            resultado=puntuacion/7    
             print("----------------------perdio------------------------")
-            time.sleep(10)
+            print("----------------------su puntuacion es: ",round(resultado),"-----------------------")
             sys.exit(0)       
 
 
