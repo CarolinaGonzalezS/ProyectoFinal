@@ -140,18 +140,17 @@ def comenzar_nuevo_juego():
     pygame.mixer.music.load("pacman.mp3")
     pygame.mixer.music.play(1)
     pacman = pygame.image.load("pacman1.jpg").convert_alpha()
-    pacman1= pygame.image.load("pacman2.jpg").convert_alpha()
-    pacman2= pygame.image.load("pacman3.jpg").convert_alpha()
-    pacman3= pygame.image.load("pacman4.jpg").convert_alpha()
     perder = pygame.image.load("perder.jpg").convert_alpha()
-    kong = pygame.image.load("kong.jpg").convert_alpha()
+    fantasma1 = pygame.image.load("fantasma2.jpg").convert_alpha()
+    fantasma2 = pygame.image.load("fantasma3.jpg").convert_alpha()
+
     imagen_de_fondo = pygame.image.load("fondo1.jpg").convert()
 
     hecho = False
 
     reloj = pygame.time.Clock()
 
-    rect_x=300
+    rect_x=260
     rect_y=203
     x_speed = 0
     y_speed = 0
@@ -159,7 +158,8 @@ def comenzar_nuevo_juego():
     cadenay=[203]
     x=90
     y=400
-
+    f1=540
+    f2=1
 
     while not hecho:
     # --- Bucle principal de eventos
@@ -167,11 +167,13 @@ def comenzar_nuevo_juego():
             if evento.type == pygame.QUIT: 
                 hecho = True
 
+       
 
         pantalla.fill(NEGRO)
         # Copia la imagen en pantalla:        
         pantalla.blit(imagen_de_fondo, posicion_base)
-        pantalla.blit(kong, (555, 216))
+        pantalla.blit(fantasma1, (f1, 216))
+        pantalla.blit(fantasma2, (f2, 216))
         pantalla.blit(pacman, (rect_x, rect_y))
         
         #dibuja el cuadrado
@@ -185,18 +187,27 @@ def comenzar_nuevo_juego():
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_UP:
                 y_speed=-30    
+                rect_x=260
                 salto+=1 
-                pantalla.blit(pacman1, (rect_x, rect_y))           
-            
+                pacman = pygame.image.load("pacman2.jpg").convert_alpha() 
+                fantasma1 = pygame.image.load("fantasma4.jpg").convert_alpha()
+                fantasma2 = pygame.image.load("fantasma7.jpg").convert_alpha()
+                f1=560                
+          
                     
         if evento.type == pygame.KEYUP:
             if evento.key == pygame.K_UP:
                 y_speed = 0
+                rect_x=255
+                pacman = pygame.image.load("pacman1.jpg").convert_alpha() 
+                fantasma1 = pygame.image.load("fantasma5.jpg").convert_alpha()
+                fantasma2 = pygame.image.load("fantasma6.jpg").convert_alpha()
+
             
 
         
         #cuerda     
-        pygame.draw.arc(pantalla, ROJO, (60, x, 500, y), 0, angulo,4 )    
+        pygame.draw.arc(pantalla, ROJO, (70, x, 500, y), 0, angulo,4 )    
         if x==50:       
             arri=1        
         elif x==280:
@@ -232,10 +243,13 @@ def comenzar_nuevo_juego():
             velocidad=velocidad-5
             salto=0
 
+
         #Cambio de cuerda
         if velocidad==0:
             angulo=2*angulo
             velocidad=150
+            fantasma1 = pygame.image.load("fantasma1.jpg").convert_alpha()
+            fantasma2 = pygame.image.load("fantasma1.jpg").convert_alpha()
 
 
     # salto del jugador:
